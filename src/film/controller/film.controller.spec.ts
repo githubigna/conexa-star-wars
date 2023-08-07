@@ -2,9 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FilmController } from './film.controller';
 import { FilmService } from '../service/film.service';
 import { CreateFilmDto } from '../dto/create-film.dto';
-import { UpdateFilmDto } from '../dto/update-film.dto';
-import { RoleAccess } from '../../user/jwt/decorator/role.decorator';
-import { PublicAccess } from '../../user/jwt/decorator/public.decorator';
 import { ExecutionContext } from '@nestjs/common';
 import { RolesGuard } from '../../user/jwt/guards/jwt-auth.guard';
 import { Reflector } from '@nestjs/core';
@@ -113,7 +110,7 @@ describe('FilmController', () => {
           characters: ['', ''],
           url: 'url.com',
         },
-      ]; // Define the expected result from the service
+      ];
 
       (filmService.findAll as jest.Mock).mockResolvedValue(expectedResult);
 
@@ -122,6 +119,4 @@ describe('FilmController', () => {
       expect(result).toBe(expectedResult);
     });
   });
-
-  // Add similar tests for other methods (findOne, update, remove) using the same pattern
 });
