@@ -3,8 +3,6 @@ import { UserController } from './user.controller';
 import { UserService } from '../service/user.service';
 import { JwtService } from '../jwt/service/jwt.service';
 import { UnauthorizedException } from '@nestjs/common';
-import { PublicAccess } from '../jwt/decorator/public.decorator';
-import { RoleAccess } from '../jwt/decorator/role.decorator';
 import { SignupDto, LoginDto } from '../dto/auth.dtos';
 import { User } from '../schemas/user.schema';
 

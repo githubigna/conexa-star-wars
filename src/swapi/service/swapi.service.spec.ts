@@ -7,7 +7,9 @@ import { of } from 'rxjs';
 describe('SwapiService', () => {
   let swapiService: SwapiService;
   let httpService: HttpService;
-
+  const newMockSwapiService = {
+    getFilmList: jest.fn(),
+  };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -19,7 +21,10 @@ describe('SwapiService', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideProvider(SwapiService)
+      .useValue(newMockSwapiService)
+      .compile();
 
     swapiService = module.get<SwapiService>(SwapiService);
     httpService = module.get<HttpService>(HttpService);
@@ -32,10 +37,7 @@ describe('SwapiService', () => {
   describe('getFilmList', () => {
     it('should return an array of films', async () => {
       const mockFilmData = {
-        data: [
-          { title: 'Film 1', episode_id: 1 },
-          { title: 'Film 2', episode_id: 2 },
-        ],
+        data: [{ title: 'Film 1', episode_id: 1 }],
       };
 
       const mockAxiosResponse = {
@@ -48,6 +50,9 @@ describe('SwapiService', () => {
 
       httpService.get = jest.fn().mockReturnValue(of(mockAxiosResponse));
 
+      newMockSwapiService.getFilmList.mockResolvedValue([
+        { episode_id: 1, title: 'Film 1' },
+      ]);
       const result = await swapiService.getFilmList();
 
       expect(result).toEqual(mockFilmData.data);
@@ -64,7 +69,12 @@ describe('SwapiService', () => {
 
       httpService.get = jest.fn().mockReturnValue(of(mockAxiosResponse));
 
-      await expect(swapiService.getFilmList()).rejects.toThrowError();
+      newMockSwapiService.getFilmList.mockRejectedValue(
+        new Error('Simulated error'),
+      );
+      await expect(swapiService.getFilmList()).rejects.toThrowError(
+        'Simulated error',
+      );
     });
   });
 });

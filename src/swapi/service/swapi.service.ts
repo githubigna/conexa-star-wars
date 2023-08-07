@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable, map, pipe } from 'rxjs';
 import { Film } from 'src/film/schemas/film.schema';
@@ -8,8 +8,12 @@ import { Film } from 'src/film/schemas/film.schema';
 export class SwapiService {
   constructor(private readonly httpService: HttpService) {}
   async getFilmList(): Promise<any> {
-    return this.httpService
-      .get(process.env.SWAPI_BASE_URL + '/films/')
-      .pipe(map((response) => response.data));
+    try {
+      return await this.httpService
+        .get(process.env.SWAPI_BASE_URL + '/films/')
+        .pipe(map((response) => response.data));
+    } catch (error) {
+      throw new Error('SWAPI API connection failed');
+    }
   }
 }

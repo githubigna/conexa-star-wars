@@ -9,7 +9,7 @@ import { UserService } from '../../service/user.service';
 import { Reflector } from '@nestjs/core';
 import { PUBLIC_KEY } from '../../constants/key-decorators';
 import { IUseToken } from '../jwt.interface';
-import { useToken } from 'src/utils/use.tokens';
+import { useToken } from '../../../utils/use.tokens';
 import { Request } from 'express';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {}

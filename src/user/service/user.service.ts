@@ -69,7 +69,7 @@ export class UserService {
    * @param email email a verificar.
    * @returns booleano determinando si puede usar ese email o no.
    */
-  async verifyEmailAvailability(email: string): Promise<boolean> {
+  private async verifyEmailAvailability(email: string): Promise<boolean> {
     const findUserQuery = await this.userRepository.findOne({ email });
     if (findUserQuery) return false;
     return true;

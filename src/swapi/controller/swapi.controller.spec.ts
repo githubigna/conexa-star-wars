@@ -7,12 +7,19 @@ describe('SwapiController', () => {
   let controller: SwapiController;
   let swapiService: SwapiService;
 
+  const newMockSwapiService = {
+    getFilmList: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SwapiController],
       providers: [SwapiService],
       imports: [HttpModule],
-    }).compile();
+    })
+      .overrideProvider(SwapiService)
+      .useValue(newMockSwapiService)
+      .compile();
 
     controller = module.get<SwapiController>(SwapiController);
     swapiService = module.get<SwapiService>(SwapiService);
