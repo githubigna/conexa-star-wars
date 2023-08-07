@@ -8,5 +8,6 @@ declare namespace NodeJS {
     JWT_SECRET: string;
     SWAPI_BASE_URL: string;
     HASH_SALT: string;
+    MOCK_JWT: string;
   }
 }

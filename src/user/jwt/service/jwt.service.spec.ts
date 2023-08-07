@@ -39,8 +39,7 @@ describe('jwt.service', () => {
         role: 'Usuario Regular',
       };
       const mockResult = {
-        accessToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTU1ODY0ZS1kMTY3LTQwNzYtODA5ZC1jMzU4YWRmZTI1NzAiLCJyb2xlIjoiVXN1YXJpbyBSZWd1bGFyIiwic2VjcmV0IjoiU2lsZW5jZUlzR29sZGVuIiwiZW1haWwiOiJpZ25hY2lvQG1haWwuY29tIn0.TnRYouqHflJ39hq5iiiXsra0GyNk2QbHYOIZGbnkVIA',
+        accessToken: process.env.MOCK_JWT,
         userId: '1155864e-d167-4076-809d-c358adfe2570',
         userName: 'ignacio',
         role: 'Usuario Regular',
