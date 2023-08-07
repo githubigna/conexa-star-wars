@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  /**
+   * @deprecated
+   * @returns
+   */
+  getDocs(): string {
+    return 'Documentation for this API in .../docs';
   }
 }

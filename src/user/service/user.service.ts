@@ -6,10 +6,13 @@ import { User } from '../schemas/user.schema';
 import { hash, compare } from 'bcrypt';
 @Injectable()
 export class UserService {
+  //#region Metodos de ruta.
   constructor(private readonly userRepository: UserRepository) {}
   async createUser(userData: SignupDto): Promise<User> {
-    const { password } = userData;
-    const plainToHash = await hash(password, 10);
+    const { password, email } = userData;
+    const availability = await this.verifyEmailAvailability(email);
+    if (!availability) throw new HttpException('Email already taken', 422);
+    const plainToHash = await hash(password, Number(process.env.HASH_SALT));
     return this.userRepository.create({
       userId: uuid(),
       userName: userData.name,
@@ -29,7 +32,7 @@ export class UserService {
   /**
    * @description funcion que lista los usuarios.
    * @param param0 - none
-   * @returns
+   * @returns Listado de usuarios
    */
   async getUsers({}): Promise<User[]> {
     return this.userRepository.find({});
@@ -57,4 +60,20 @@ export class UserService {
     const data = findUserQuery;
     return data;
   }
+  //#endregion
+
+  //#region Validaciones
+
+  /**
+   * @description Funcion que determina la disponibilidad del email ingresado.
+   * @param email email a verificar.
+   * @returns booleano determinando si puede usar ese email o no.
+   */
+  async verifyEmailAvailability(email: string): Promise<boolean> {
+    const findUserQuery = await this.userRepository.findOne({ email });
+    if (findUserQuery) return false;
+    return true;
+  }
+
+  //#endregion
 }
